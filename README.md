@@ -7,9 +7,18 @@ Student Number: C18301026
 Class Group: TU856 (DT228)
 
 # Description
-The goal of this assignment is to recreate the Borg battle from Star Trek: First Contact using Unity and low-poly Blender models.
+This is a low-poly recreation of the Borg battle from Star Trek: First Contact in Unity. All models were created using Blender.
+
+The story will mimic the following video:
+
+[![YouTube](http://img.youtube.com/vi/D7KCb-O20Fg/0.jpg)](https://www.youtube.com/watch?v=D7KCb-O20Fg)
+
+# Video Demonstration
+
+# Instructions for use
 
 # Event Summary
+## Scene 1
 1. Picard gets notified that the fleet has engaged the Borg.
 2. The Borg threatens to assimilate Earth.
 3. The Enterprise goes to Earth at maximum warp.
@@ -30,13 +39,13 @@ The goal of this assignment is to recreate the Borg battle from Star Trek: First
 18. In response, the Enterprise fires quantum torpedoes at the sphere.
 19. The Borg sphere blows up.
 
-# Storyboard
-The story will mimic the following video:
+# How it works
 
-[![YouTube](http://img.youtube.com/vi/D7KCb-O20Fg/0.jpg)](https://www.youtube.com/watch?v=D7KCb-O20Fg)
+# List of classes/assets in this project
+
+# What I am most proud of in the assignment
 
 # Models
-The following models were all created in Blender by me.
 ## Enterprise
 ![enterprise model in blender](BlenderImages/Enterprise.png)
 ## Borg Cube
