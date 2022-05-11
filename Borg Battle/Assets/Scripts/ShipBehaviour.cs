@@ -11,8 +11,8 @@ public class ShipBehaviour : MonoBehaviour
 
 	public Transform target;
 	public Path path;
+	public float maxSpeed;
 
-	private float maxSpeed = 10f;
 	private Vector3 force;
 	private Vector3 acceleration;
 	private float mass = 1f;
