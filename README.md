@@ -38,18 +38,18 @@ The story will mimic the following video:
 # Models
 The following models were all created in Blender by me.
 ## Enterprise
-![enterprise model in blender](./Blender Images/Enterprise.png)
+![enterprise model in blender](Blender Images/Enterprise.png)
 ## Borg Cube
-![borg cube model in blender](./Blender Images/Borg Cube.png)
+![borg cube model in blender](Blender Images/Borg Cube.png)
 ## Earth
-![earth model in blender](./Blender Images/Earth.png)
+![earth model in blender](Blender Images/Earth.png)
 ## Generic Ship No. 1
-![generic ship 1 model in blender](./Blender Images/Ship1.png)
+![generic ship 1 model in blender](Blender Images/Ship1.png)
 ## Generic Ship No. 2
-![generic ship 2 model in blender](./Blender Images/Ship2.png)
+![generic ship 2 model in blender](Blender Images/Ship2.png)
 ## USS Defiant
-![uss defiant model in blender](./Blender Images/USS_Defiant.png)
+![uss defiant model in blender](Blender Images/USS_Defiant.png)
 ## Borg Sphere
-![borg sphere model in blender](./Blender Images/Borg Sphere.png)
+![borg sphere model in blender](Blender Images/Borg Sphere.png)
 ## Borg Earth
-![borg earth model in blender](./Blender Images/Borg Earth.png)
+![borg earth model in blender](Blender Images/Borg Earth.png)
