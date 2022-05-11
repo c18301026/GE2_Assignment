@@ -36,4 +36,20 @@ The story will mimic the following video:
 [![YouTube](http://img.youtube.com/vi/D7KCb-O20Fg/0.jpg)](https://www.youtube.com/watch?v=D7KCb-O20Fg)
 
 # Models
-The models will be created using Blender. These are work in progress and there will be more added as time goes by.
+The following models were all created in Blender by me.
+## Enterprise
+![enterprise model in blender](./Blender Images/Enterprise.png)
+## Borg Cube
+![borg cube model in blender](./Blender Images/Borg Cube.png)
+## Earth
+![earth model in blender](./Blender Images/Earth.png)
+## Generic Ship No. 1
+![generic ship 1 model in blender](./Blender Images/Ship1.png)
+## Generic Ship No. 2
+![generic ship 2 model in blender](./Blender Images/Ship2.png)
+## USS Defiant
+![uss defiant model in blender](./Blender Images/USS_Defiant.png)
+## Borg Sphere
+![borg sphere model in blender](./Blender Images/Borg Sphere.png)
+## Borg Earth
+![borg earth model in blender](./Blender Images/Borg Earth.png)
