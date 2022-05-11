@@ -10,6 +10,7 @@ public class ShipBehaviour : MonoBehaviour
 	public bool followingPath;
 
 	public Transform target;
+	public Path path;
 
 	private float maxSpeed = 10f;
 	private Vector3 force;
@@ -20,6 +21,7 @@ public class ShipBehaviour : MonoBehaviour
 	private float banking = 0.1f;
 	private float damping = 0.1f;
 	private float slowingDistance = 40f;
+	private float waypointDistance = 3f;
 
 	void Seek(Vector3 targetPos)
 	{
@@ -44,6 +46,7 @@ public class ShipBehaviour : MonoBehaviour
 	{
 		Vector3 toTarget = targetPos - transform.position;
 		float distance = toTarget.magnitude;
+
 		if(distance == 0.0f)
 		{
 			force = Vector3.zero;
@@ -69,6 +72,25 @@ public class ShipBehaviour : MonoBehaviour
 		}
 	}
 
+	void FollowPath()
+	{
+		Vector3 nextWaypoint = path.Next();
+
+		if(!path.looped && path.IsLast())
+		{
+			Arrive(nextWaypoint);
+		}
+		else
+		{
+			if(Vector3.Distance(transform.position, nextWaypoint) < waypointDistance)
+			{
+				path.ToNext();
+			}
+
+			Seek(nextWaypoint);
+		}
+	}
+
 	void FixedUpdate()
 	{
 		if(seeking)
@@ -81,6 +103,7 @@ public class ShipBehaviour : MonoBehaviour
 		}
 		else if(followingPath)
 		{
+			FollowPath();
 		}
 	}
 }
