@@ -249,6 +249,42 @@ void Engage()
 }
 ```
 
+### Camera Movement
+Since there is not a lot going on in scene 1 (the focus is on the dialogue and plot), different camera angles on the Enterprise were used for cinematic effect to give the illusion of progress. Camera movement is also handled in the same [scene 1 director script](https://github.com/c18301026/GE2_Assignment/blob/main/Borg%20Battle/Assets/Scripts/Scene1Director.cs) used to move the Enterprise ship. The start of the scene shows the camera in its default position. However, coroutines are used to change position.
+#### Coroutines are used to time the changes in camera angle/positions
+```C#
+void Start()
+{
+	StartCoroutine(ChangeCameraAngle(10f, 5f, 25f, 11.5f));
+	StartCoroutine(ChangeCameraAngle(0f, 10f, 50f, 32.4f));
+	StartCoroutine(ChangeCameraAngle(-10f, 5f, 25f, 72f));
+	StartCoroutine(ChangeCameraAngle(0f, 10f, 50f, 92f));
+	StartCoroutine(ChangeCameraAngle(10f, 5f, 25f, 109.5f));
+	Invoke("TurnAround", 111.5f);
+}
+```
+#### The camera will mostly face the Enterprise for most of the scene
+```C#
+void FixedUpdate()
+{
+	// ...the code above the if statement is not relevant to camera movement
+
+	if(lookAt)
+	{
+		camera.transform.LookAt(enterprise.transform);
+	}
+}
+```
+#### This is the coroutine method that makes the changes to the camera position/angle. The timeStamp argument is in seconds.
+```C#
+IEnumerator ChangeCameraAngle(float x, float y, float z, float timeStamp)
+{
+	yield return new WaitForSeconds(timeStamp);
+	lookAt = true;
+	camera.transform.position = new Vector3(enterprise.transform.position.x + x, enterprise.transform.position.y + y, enterprise.transform.position.z + z);
+}
+```
+
 # List of classes/assets in this project
 
 # What I am most proud of in the assignment
