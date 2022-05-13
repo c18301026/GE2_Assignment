@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enterprise
   - Target
+  - Canvas
+  - DialogueBox
+  - PortraitBox
   layers:
   - Default
   - TransparentFX

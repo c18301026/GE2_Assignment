@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Scene1Director : MonoBehaviour
 {
+	// Attributes related to the ships/physics
 	private GameObject enterprise;
 	private GameObject target;
 	private Camera camera;
@@ -14,15 +15,73 @@ public class Scene1Director : MonoBehaviour
 	private bool goingBack = false;
 	private bool faster = false;
 
+	// Attributes related to the dialogue box
+	private string[] lines = new string[] {	"TROI (on intercom):\nBridge to Captain Picard.",
+						"PICARD:\nGo ahead.",
+						"TROI (on intercom):\nWe've just received word from the fleet. They've engaged the Borg.",
+						"PICARD:\nData, put Starfleet frequency one four eight six on audio.",
+						"DATA:\nAye sir.",
+						"FLEET COMMUNICATIONS:\nFlagship to Endeavor. Standby to engage at grid A-fifteen. ...Defiant and Bozeman, fall back to mobile position one. ...Acknowledge. ...We have it in visual range. A Borg cube on course zero point two one five, speed warp point nine six.",
+						"BORG COMMUNICATIONS:\nWe are the Borg. Lower your shields and surrender your ships. We will add your biological and technological distinctiveness to our own. Your culture will adapt to service us. Resistance is futile.",
+						"FLEET COMMUNICATIONS:\nAll units open fire. ...They've broken through the defence perimeter. ... Continue to attack. ...We need reinforcements. ...Ninety-six dead and twenty-two wounded on the Lexington."
+						};
+	private float[] displayTimeStamps = new float[] {	0f,
+								2.2f,
+								3.7f,
+								11.5f,
+								15f,
+								18.25f,
+								32.4f,
+								48.8f
+								};
+	private float[] hideTimeStamps = new float[] {	9f,
+							17f};
+	private GameObject canvas, dialogueBox, portraitBox;
+	private Dialogue dialogueScript;
+	private Texture2D crusher, data, hawk, picard, riker, troi, connOfficer, wolf;
+	private Texture2D[] portraits;
+
 	void Awake()
 	{
+		// Ship/physics variables
 		enterprise = GameObject.FindWithTag("Enterprise");
 		target = GameObject.FindWithTag("Target");
 		camera = Camera.main;
 		enterpriseBehaviour = enterprise.GetComponent<ShipBehaviour>();
 		enterpriseBehaviour.target = target.transform;
 		enterpriseBehaviour.maxSpeed = targetSpeed;
-		enterpriseBehaviour.seeking = true;
+
+		// Dialogue box variables
+		canvas = GameObject.FindWithTag("Canvas");
+		dialogueBox = GameObject.FindWithTag("DialogueBox");
+		portraitBox = GameObject.FindWithTag("PortraitBox");
+
+		crusher = Resources.Load("Portraits/crusher") as Texture2D;
+		data = Resources.Load("Portraits/data") as Texture2D;
+		hawk = Resources.Load("Portraits/hawk") as Texture2D;
+		picard = Resources.Load("Portraits/picard") as Texture2D;
+		riker = Resources.Load("Portraits/riker") as Texture2D;
+		troi = Resources.Load("Portraits/troi") as Texture2D;
+		connOfficer = Resources.Load("Portraits/connOfficer") as Texture2D;
+		wolf = Resources.Load("Portraits/wolf") as Texture2D;
+
+		portraits = new Texture2D[] {	troi,
+						picard,
+						troi,
+						picard,
+						data,
+						data,
+						data,
+						data
+						};
+
+		dialogueScript = dialogueBox.GetComponent<Dialogue>();
+		dialogueScript.canvas = canvas;
+		dialogueScript.portraitBox = portraitBox;
+		dialogueScript.lines = lines;
+		dialogueScript.displayTimeStamps = displayTimeStamps;
+		dialogueScript.hideTimeStamps = hideTimeStamps;
+		dialogueScript.portraits = portraits;
 	}
 
 	void Start()
@@ -54,6 +113,7 @@ public class Scene1Director : MonoBehaviour
 	{
 		if(turningAround)
 		{
+			enterpriseBehaviour.seeking = true;
 			target.transform.position += new Vector3(targetSpeed * Time.deltaTime, 0, 0);
 		}
 		else if(goingBack || faster)
@@ -62,6 +122,7 @@ public class Scene1Director : MonoBehaviour
 		}
 		else
 		{
+			enterprise.transform.position += new Vector3(0, 0, targetSpeed * Time.deltaTime);
 			target.transform.position += new Vector3(0, 0, targetSpeed * Time.deltaTime);
 		}
 		if(lookAt)
@@ -87,7 +148,7 @@ public class Scene1Director : MonoBehaviour
 	{
 		goingBack = false;
 		faster = true;
-		targetSpeed = 200f;
+		targetSpeed = 300f;
 		enterpriseBehaviour.maxSpeed = targetSpeed;
 	}
 }
