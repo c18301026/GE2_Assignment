@@ -25,7 +25,7 @@ The story will mimic the following video:
 
 ## Scene 2
 1. Borg cube is seen heading for Earth.
-2. 3 shots hit the Borg cube.
+2. 3 shots fired by the Starfleet hit the Borg cube.
 
 ## Scene 3
 1. The Starfleet ships attack the Borg cube.
@@ -161,6 +161,91 @@ public class ShipBehaviour : MonoBehaviour
 			FollowPath();
 		}
 	}
+}
+```
+For most of the scene, the Enterprise isn't actually following (seek/arrive/path following) anything in particular. The movement is controlled by a "scene director", an empty GameObject that has a [unique script](https://github.com/c18301026/GE2_Assignment/blob/main/Borg%20Battle/Assets/Scripts/Scene1Director.cs) attached to it for every scene that controls how the events play out in specific scene. It is only until the end of the scene (when Picard says "Engage!") where the Enterprise actually seeks a target (it is a sphere, but its Mesh Renderer component has been disabled). The purpose of the target sphere is to make the Enterprise turn around when Picard decides to help the Starfleet's battle against the Borg cube.
+#### These are some attributes found at the top of the scene 1 director script. They are related to the physics and states of the Enterprise ship, e.g., boolean flags that state when the ship should turn around.
+```C#
+// Attributes related to the ships/physics
+private GameObject enterprise;
+private GameObject target;
+private Camera camera;
+private ShipBehaviour enterpriseBehaviour;
+private float targetSpeed = 5f;
+private bool lookAt = false;
+private bool turningAround = false;
+private bool goingBack = false;
+private bool faster = false;
+
+// ...other attributes not related to the movement of the Enterprise
+```
+#### The Awake() method is called to initialise some variables and get a reference to the Enterprise ship and its target.
+```C#
+void Awake()
+{
+	// Ship/physics variables
+	enterprise = GameObject.FindWithTag("Enterprise");
+	target = GameObject.FindWithTag("Target");
+	camera = Camera.main;
+	enterpriseBehaviour = enterprise.GetComponent<ShipBehaviour>();
+	enterpriseBehaviour.target = target.transform;
+	enterpriseBehaviour.maxSpeed = targetSpeed;
+
+	// ...the rest of the Awake() method isn't related to the movement of the Enterprise
+}
+```
+#### In the Start() method, a method called TurnAround() is invoked after 111.5 seconds has passed in the first scene. This is when the target sphere turns around. Once the target sphere turns around, the Enterprise is already seeking it and therefore, the Enterprise also turns around.
+```C#
+void Start()
+{
+	// ...the code above the invoke method relates to coroutines for changing the camera angles, i.e., not related to the movement of the Enterprise ship
+
+	Invoke("TurnAround", 111.5f);
+}
+```
+#### The else statement shows that in normal cases, i.e., most of the scene, the Enterprise ship is technically not seeking the target. Instead, its position is changed at an equal pace to the target sphere. Once the turningAround flag/state has been turned on in the first if statement, the Enterprise ship begins to actually seek the target sphere. The target sphere moves in the X-axis as a way to make the Enterprise change its direction.  The else if statement shows the target (meaning the Enterprise also) going in the opposite direction it was originally going in.
+```C#
+void FixedUpdate()
+{
+	if(turningAround)
+	{
+		enterpriseBehaviour.seeking = true;
+		target.transform.position += new Vector3(targetSpeed * Time.deltaTime, 0, 0);
+	}
+	else if(goingBack || faster)
+	{
+		target.transform.position += new Vector3(0, 0, -targetSpeed * Time.deltaTime);
+	}
+	else
+	{
+		enterprise.transform.position += new Vector3(0, 0, targetSpeed * Time.deltaTime);
+		target.transform.position += new Vector3(0, 0, targetSpeed * Time.deltaTime);
+	}
+
+	// ...below is code not related to the movement of the Enterprise
+}
+```
+#### These methods give more context to the FixedUpdate() code above.
+```C#
+void TurnAround()
+{
+	turningAround = true;
+	Invoke("GoBack", 0.5f);
+}
+
+void GoBack()
+{
+	turningAround = false;
+	goingBack = true;
+	Invoke("Engage", 3f);
+}
+
+void Engage()
+{
+	goingBack = false;
+	faster = true;
+	targetSpeed = 300f;
+	enterpriseBehaviour.maxSpeed = targetSpeed;
 }
 ```
 
