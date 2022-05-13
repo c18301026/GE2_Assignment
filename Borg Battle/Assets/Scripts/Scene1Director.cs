@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Scene1Director : MonoBehaviour
 {
@@ -57,6 +58,8 @@ public class Scene1Director : MonoBehaviour
 	private Texture2D borg, crusher, data, hawk, picard, riker, starfleet, troi, connOfficer, worf;
 	private Texture2D[] portraits;
 
+	private AudioSource audioSource;
+
 	void Awake()
 	{
 		// Ship/physics variables
@@ -106,6 +109,8 @@ public class Scene1Director : MonoBehaviour
 		dialogueScript.displayTimeStamps = displayTimeStamps;
 		dialogueScript.hideTimeStamps = hideTimeStamps;
 		dialogueScript.portraits = portraits;
+
+		audioSource = GetComponent<AudioSource>();
 	}
 
 	void Start()
@@ -116,6 +121,14 @@ public class Scene1Director : MonoBehaviour
 		StartCoroutine(ChangeCameraAngle(0f, 10f, 50f, 92f));
 		StartCoroutine(ChangeCameraAngle(10f, 5f, 25f, 109.5f));
 		Invoke("TurnAround", 111.5f);
+	}
+
+	void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Space) || !audioSource.isPlaying)
+		{
+			SceneManager.LoadScene("Scene2");
+		}
 	}
 
 	void FixedUpdate()

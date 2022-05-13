@@ -423,10 +423,22 @@ void Awake()
 	dialogueScript.displayTimeStamps = displayTimeStamps;
 	dialogueScript.hideTimeStamps = hideTimeStamps;
 	dialogueScript.portraits = portraits;
+
+	audioSource = GetComponent<AudioSource>();
 }
 ```
 ### Audio
 All the audio that you will hear in this project is based on the story's source video. However, it has been split up based on the scenes using Audacity. The audio source for each scene is attached to the scene director GameObject and it immediately plays as soon as the scene starts.
+#### Through the Update() method in the scene director script, the next scene will be played when the audio stops or if the space key is pressed
+```C#
+void Update()
+{
+	if(Input.GetKeyDown(KeyCode.Space) || !audioSource.isPlaying)
+	{
+		SceneManager.LoadScene("Scene2");
+	}
+}
+```
 
 # List of classes/assets in this project
 | Class/asset | Source |
