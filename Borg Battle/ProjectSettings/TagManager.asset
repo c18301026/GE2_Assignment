@@ -9,6 +9,8 @@ TagManager:
   - Canvas
   - DialogueBox
   - PortraitBox
+  - BorgCube
+  - Earth
   layers:
   - Default
   - TransparentFX

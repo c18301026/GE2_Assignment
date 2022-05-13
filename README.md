@@ -452,7 +452,7 @@ All the audio that you will hear in this project is based on the story's source 
 | Hawk.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | Picard.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | Riker.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
-| Starfleet.png | [Source](https://static.wikia.nocookie.net/sto_gamepedia/images/7/72/Starfleet_Command_patch.png/revision/latest?cb=20120409234222) |
+| Starfleet.png | [Source](https://cdn.wccftech.com/wp-content/uploads/2015/06/Patch_starfleet_command_2000.png) |
 | Troi.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | USS_Defiant_Conn_Officer.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | Worf.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
