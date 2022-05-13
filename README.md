@@ -285,6 +285,147 @@ IEnumerator ChangeCameraAngle(float x, float y, float z, float timeStamp)
 }
 ```
 
+### Dialogue box
+The dialogue box that shows what the different characters are saying is a TextMeshPro GameObject while the character portrait box is a RawImage GameObject. Both the dialogue box and portrait box are children of a Canvas (UI) GameObject. The [Dialogue.cs](https://github.com/c18301026/GE2_Assignment/blob/main/Borg%20Battle/Assets/Scripts/Dialogue.cs) script handles all the dialogue in a scene. The textComponent attribute is the component that holds the text part of the box. The lines array contains strings, where each string represents a piece of dialogue from a specific character. The portraits array contains an array of Texture2D objects, where each represents the face of a specific character. This script also decides when to display a specific character's dialogue and portrait on the screen. This is done through the use of the displayTimeStamps array, which holds the time stamps (in seconds) for when to display a dialogue/portrait. These seconds are then passed into a coroutine method ChangeDialogue(). Similarly, the hideTimeStamps array and the HideDialogue coroutine method are for hiding a dialogue/portrait.
+#### Dialogue.cs
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class Dialogue : MonoBehaviour
+{
+	public TextMeshProUGUI textComponent;
+	public string[] lines;
+	public Texture2D[] portraits;
+	public float[] displayTimeStamps, hideTimeStamps;
+	public GameObject portraitBox;
+	public GameObject canvas;
+
+	void Start()
+	{
+		textComponent.text = "";
+
+		for(int i = 0; i < lines.Length; i++)
+		{
+			StartCoroutine(ChangeDialogue(lines[i], portraits[i], displayTimeStamps[i]));
+		}
+
+		for(int i = 0; i < hideTimeStamps.Length; i++)
+		{
+			StartCoroutine(HideDialogue(hideTimeStamps[i]));
+		}
+	}
+
+	IEnumerator ChangeDialogue(string line, Texture2D portrait, float displayTimeStamp)
+	{
+		yield return new WaitForSeconds(displayTimeStamp);
+		textComponent.text = line;
+		portraitBox.GetComponent<RawImage>().texture = portrait;
+		canvas.GetComponent<Canvas>().enabled = true;
+	}
+
+	IEnumerator HideDialogue(float hideTimeStamp)
+	{
+		yield return new WaitForSeconds(hideTimeStamp);
+		canvas.GetComponent<Canvas>().enabled = false;
+	}
+}
+```
+#### All the specific attributes (dialogue strings, portraits, timestamps etc.) can be found in the scene 1 director script.
+```C#
+// Attributes related to the dialogue box
+private string[] lines = new string[] {	"TROI (on intercom):\nBridge to Captain Picard.",
+					"PICARD:\nGo ahead.",
+					"TROI (on intercom):\nWe've just received word from the fleet. They've engaged the Borg.",
+					"PICARD:\nData, put Starfleet frequency one four eight six on audio.",
+					"DATA:\nAye sir.",
+					"FLEET COMMUNICATIONS:\nFlagship to Endeavor. Standby to engage at grid A-fifteen. ...Defiant and Bozeman, fall back to mobile position one. ...Acknowledge. ...We have it in visual range. A Borg cube on course zero point two one five, speed warp point nine six.",
+					"BORG COMMUNICATIONS:\nWe are the Borg. Lower your shields and surrender your ships. We will add your biological and technological distinctiveness to our own. Your culture will adapt to service us. Resistance is futile.",
+					"FLEET COMMUNICATIONS:\nAll units open fire. ...They've broken through the defence perimeter. ... Continue to attack. ...We need reinforcements. ...Ninety-six dead and twenty-two wounded on the Lexington.",
+					"PICARD:\nLieutenant Hawk. Set a course for Earth.",
+					"HAWK:\nAye sir.",
+					"PICARD:\nMaximum warp. ...I am about to commit a direct violation of our orders. Any of you who wish to object should do so now. It will be noted in my log.",
+					"DATA:\nCaptain, I believe I speak for everyone here, sir, when I say ...to hell with our orders.",
+					"PICARD:\nRED ALERT! All hands to battle stations.",
+					"PICARD:\nEngage."
+					};
+private float[] displayTimeStamps = new float[] {	0f,
+							2.2f,
+							3.7f,
+							11.5f,
+							15f,
+							18.25f,
+							32.4f,
+							48.8f,
+							72f,
+							75f,
+							76.5f,
+							92f,
+							105f,
+							109.5f
+							};
+private float[] hideTimeStamps = new float[] {	9f,
+						17f,
+						90f,
+						102.5f,
+						109f,
+						112.5f};
+private GameObject canvas, dialogueBox, portraitBox;
+private Dialogue dialogueScript;
+private Texture2D borg, crusher, data, hawk, picard, riker, starfleet, troi, connOfficer, worf;
+private Texture2D[] portraits;
+```
+#### The Awake() method initialises some variables and gets references to any necessary dialogue variable/object.
+```C#
+void Awake()
+{
+	// ...unrelated variables for ship/physics
+
+	// Dialogue box variables
+	canvas = GameObject.FindWithTag("Canvas");
+	dialogueBox = GameObject.FindWithTag("DialogueBox");
+	portraitBox = GameObject.FindWithTag("PortraitBox");
+
+	borg = Resources.Load("Portraits/Borg") as Texture2D;
+	crusher = Resources.Load("Portraits/Crusher") as Texture2D;
+	data = Resources.Load("Portraits/Data") as Texture2D;
+	hawk = Resources.Load("Portraits/Hawk") as Texture2D;
+	picard = Resources.Load("Portraits/Picard") as Texture2D;
+	riker = Resources.Load("Portraits/Riker") as Texture2D;
+	starfleet = Resources.Load("Portraits/Starfleet") as Texture2D;
+	troi = Resources.Load("Portraits/Troi") as Texture2D;
+	connOfficer = Resources.Load("Portraits/USS_Defiant_Conn_Officer") as Texture2D;
+	worf = Resources.Load("Portraits/Worf") as Texture2D;
+
+	portraits = new Texture2D[] {	troi,
+					picard,
+					troi,
+					picard,
+					data,
+					starfleet,
+					borg,
+					starfleet,
+					picard,
+					hawk,
+					picard,
+					data,
+					picard,
+					picard
+					};
+
+	dialogueScript = dialogueBox.GetComponent<Dialogue>();
+	dialogueScript.canvas = canvas;
+	dialogueScript.portraitBox = portraitBox;
+	dialogueScript.lines = lines;
+	dialogueScript.displayTimeStamps = displayTimeStamps;
+	dialogueScript.hideTimeStamps = hideTimeStamps;
+	dialogueScript.portraits = portraits;
+}
+```
+
 # List of classes/assets in this project
 
 # What I am most proud of in the assignment
