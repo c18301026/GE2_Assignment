@@ -285,7 +285,7 @@ IEnumerator ChangeCameraAngle(float x, float y, float z, float timeStamp)
 }
 ```
 
-### Dialogue box
+### Dialogue Box
 The dialogue box that shows what the different characters are saying is a TextMeshPro GameObject while the character portrait box is a RawImage GameObject. Both the dialogue box and portrait box are children of a Canvas (UI) GameObject. The [Dialogue.cs](https://github.com/c18301026/GE2_Assignment/blob/main/Borg%20Battle/Assets/Scripts/Dialogue.cs) script handles all the dialogue in a scene. The textComponent attribute is the component that holds the text part of the box. The lines array contains strings, where each string represents a piece of dialogue from a specific character. The portraits array contains an array of Texture2D objects, where each represents the face of a specific character. This script also decides when to display a specific character's dialogue and portrait on the screen. This is done through the use of the displayTimeStamps array, which holds the time stamps (in seconds) for when to display a dialogue/portrait. These seconds are then passed into a coroutine method ChangeDialogue(). Similarly, the hideTimeStamps array and the HideDialogue coroutine method are for hiding a dialogue/portrait.
 #### Dialogue.cs
 ```C#
@@ -425,10 +425,44 @@ void Awake()
 	dialogueScript.portraits = portraits;
 }
 ```
+### Audio
+All the audio that you will hear in this project is based on the story's source video. However, it has been split up based on the scenes using Audacity. The audio source for each scene is attached to the scene director GameObject and it immediately plays as soon as the scene starts.
 
 # List of classes/assets in this project
+| Class/asset | Source |
+|-----------|-----------|
+| Dialogue.cs | Created by me |
+| Scene1Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
+| Path.cs | Based on [this](https://github.com/skooter500/GE2-2021-2022/blob/master/GE2%202022/Assets/Path.cs) |
+| ShipBehaviour.cs | Based on [this](https://github.com/skooter500/GE2-2021-2022/blob/master/GE2%202022/Assets/BigBoid.cs) |
+| Scene1.unity | Created by me |
+| Borg_Cube.fbx | Created by me using Blender |
+| Borg_Earth.fbx | Created by me using Blender |
+| Borg_Sphere.fbx | Created by me using Blender |
+| Earth.fbx | Created by me using Blender |
+| Enterprise.fbx | Created by me using Blender |
+| Ship1.fbx | Created by me using Blender |
+| Ship2.fbx | Created by me using Blender |
+| USS_Defiant.fbx | Created by me using Blender |
+| Space.png | Created by me using MS Paint |
+| Palette.png | [Source](https://www.dropbox.com/s/c5olic38j8fopet/ImphenziaPalette01.png?dl=0) |
+| Borg.png | [Source](https://macromarkets.ie/wp-content/uploads/2016/10/I_Borg_Star_Trek_TNG_HD.jpg) |
+| Crusher.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
+| Data.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
+| Hawk.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
+| Picard.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
+| Riker.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
+| Starfleet.png | [Source](https://static.wikia.nocookie.net/sto_gamepedia/images/7/72/Starfleet_Command_patch.png/revision/latest?cb=20120409234222) |
+| Troi.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
+| USS_Defiant_Conn_Officer.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
+| Worf.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
+| Scene1.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity|
 
 # What I am most proud of in the assignment
+- Writing the Dialogue.cs script that displays/hides the dialogue boxes using coroutines.
+- Writing the scene director scripts to control how each scene plays out in terms of moving the ships, changing the camera angles and especially setting time stamps to play/hide the dialogue boxes.
+- Creating all the 3D low poly models using Blender.
+- Syncing up the scene audio with the time stamps.
 
 # Models
 ## Enterprise
