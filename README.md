@@ -16,6 +16,8 @@ The story will mimic the following video:
 # Video Demonstration
 
 # Instructions for use
+## Controls
+- Space key: move to the next scene
 
 # Event Summary
 ## Scene 1
@@ -377,6 +379,8 @@ private GameObject canvas, dialogueBox, portraitBox;
 private Dialogue dialogueScript;
 private Texture2D borg, crusher, data, hawk, picard, riker, starfleet, troi, connOfficer, worf;
 private Texture2D[] portraits;
+
+private AudioSource audioSource;
 ```
 #### The Awake() method initialises some variables and gets references to any necessary dialogue variable/object.
 ```C#
@@ -469,6 +473,7 @@ void Update()
 | USS_Defiant_Conn_Officer.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | Worf.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | Scene1.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity|
+| Scene2.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity|
 
 # What I am most proud of in the assignment
 - Writing the Dialogue.cs script that displays/hides the dialogue boxes using coroutines.
