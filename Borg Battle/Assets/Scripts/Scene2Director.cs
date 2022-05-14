@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Scene2Director : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class Scene2Director : MonoBehaviour
 	{
 		if(Input.GetKeyDown(KeyCode.Space) || !audioSource.isPlaying)
 		{
-			//SceneManager.LoadScene("Scene3");
+			SceneManager.LoadScene("Scene3");
 		}
 	}
 
