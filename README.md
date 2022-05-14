@@ -529,10 +529,13 @@ public class ProjectileBehaviour : MonoBehaviour
 | Class/asset | Source |
 |-----------|-----------|
 | Dialogue.cs | Created by me |
+| ProjectileBehaviour.cs | Created by me |
 | Scene1Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
+| Scene2Director.cs | Created by me |
 | Path.cs | Based on [this](https://github.com/skooter500/GE2-2021-2022/blob/master/GE2%202022/Assets/Path.cs) |
 | ShipBehaviour.cs | Based on [this](https://github.com/skooter500/GE2-2021-2022/blob/master/GE2%202022/Assets/BigBoid.cs) |
 | Scene1.unity | Created by me |
+| Scene2.unity | Created by me |
 | Borg_Cube.fbx | Created by me using Blender |
 | Borg_Earth.fbx | Created by me using Blender |
 | Borg_Sphere.fbx | Created by me using Blender |
@@ -553,12 +556,19 @@ public class ProjectileBehaviour : MonoBehaviour
 | Troi.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | USS_Defiant_Conn_Officer.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | Worf.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
+| Background.mat | Created by me |
+| ExplosionMaterial.mat | Created by me; help from [this video](https://youtu.be/_KBaT6gRgRs) |
+| RedLaserMaterial.mat | Created by me; help from [this video](https://youtu.be/_KBaT6gRgRs) |
+| SmokeMaterial.mat | Created by me |
+| Explosion.prefab | Created by me; help from [this video](https://youtu.be/dOnQY0t3TBM) |
+| RedLaser.prefab | Created by me |
 | Scene1.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity|
 | Scene2.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity|
 
 # What I am most proud of in the assignment
 - Writing the Dialogue.cs script that displays/hides the dialogue boxes using coroutines.
 - Writing the scene director scripts to control how each scene plays out in terms of moving the ships, changing the camera angles and especially setting time stamps to play/hide the dialogue boxes.
+- Writing the Projectile.cs script to aim projectiles at a specific target's position.
 - Creating all the 3D low poly models using Blender.
 - Syncing up the scene audio with the time stamps.
 
