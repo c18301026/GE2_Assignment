@@ -8,10 +8,11 @@ public class Scene2Director : MonoBehaviour
 	private GameObject earth;
 	private Camera camera;
 	private ShipBehaviour borgCubeBehaviour;
-	private float borgSpeed = 7.5f;
+	private float borgSpeed = 5f;
 	private GameObject laserSpawnPos;
 	private GameObject laser;
-	private float[] laserTimeStamps;
+
+	private AudioSource audioSource;
 
 	void Awake()
 	{
@@ -24,19 +25,33 @@ public class Scene2Director : MonoBehaviour
 		borgCubeBehaviour.seeking = true;
 		laserSpawnPos = GameObject.FindWithTag("LaserSpawnPos");
 		laser = Resources.Load("Prefabs/RedLaser") as GameObject;
+
+		audioSource = GetComponent<AudioSource>();
+	}
+
+	void Start()
+	{
+		Invoke("ShootLaser", 11f);
+		Invoke("ShootLaser", 12f);
+		Invoke("ShootLaser", 13.5f);
 	}
 
 	void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Space))
+		if(Input.GetKeyDown(KeyCode.Space) || !audioSource.isPlaying)
 		{
-			var l = Instantiate(laser, laserSpawnPos.transform.position, laserSpawnPos.transform.rotation);
-			l.GetComponent<ProjectileBehaviour>().target = borgCube;
+			//SceneManager.LoadScene("Scene3");
 		}
 	}
 
 	void FixedUpdate()
 	{
 		camera.transform.LookAt(borgCube.transform);
+	}
+
+	void ShootLaser()
+	{
+		var l = Instantiate(laser, laserSpawnPos.transform.position, laserSpawnPos.transform.rotation);
+		l.GetComponent<ProjectileBehaviour>().target = borgCube;
 	}
 }
