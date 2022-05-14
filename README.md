@@ -444,6 +444,87 @@ void Update()
 }
 ```
 
+## Scene 2
+### Movement of the Borg Cube
+The Borg Cube moves through the [ShipBehaviour.cs](https://github.com/c18301026/GE2_Assignment/blob/main/Borg%20Battle/Assets/Scripts/ShipBehaviour.cs) script. It is using the Seek() method, to approach the Earth.
+
+### Camera Movement
+This particular scene is simpler than scene 1 in terms of the camera. Again, the camera movement is handled by a [scene director script](https://github.com/c18301026/GE2_Assignment/blob/main/Borg%20Battle/Assets/Scripts/Scene2Director.cs).
+#### FixedUpdate() method of Scene2Director.cs
+```C#
+void FixedUpdate()
+{
+	camera.transform.LookAt(borgCube.transform);
+}
+```
+
+### Projectile Spawning
+The most interesting part of this scene is probably the shots that get fired at the Borg Cube. There are 3 in total in this scene and they all originate from an empty GameObject called LaserSpawnPos. The times when they get fired are controlled by the scene 2 director script.
+
+#### Spawning the lasers is achieved through the use of the Invoke() method
+```C#
+void Start()
+{
+	Invoke("ShootLaser", 11f);
+	Invoke("ShootLaser", 12f);
+	Invoke("ShootLaser", 13.5f);
+}
+```
+#### The ShootLaser() method instantiates a laser GameObject/prefab
+```C#
+void ShootLaser()
+{
+	var l = Instantiate(laser, laserSpawnPos.transform.position, laserSpawnPos.transform.rotation);
+	l.GetComponent<ProjectileBehaviour>().target = borgCube;
+}
+```
+
+### The Projectile Behaviour Script
+The laser that gets instantiated by ShootLaser() has a script called [ProjectileBehaviour.cs](https://github.com/c18301026/GE2_Assignment/blob/main/Borg%20Battle/Assets/Scripts/ProjectileBehaviour.cs) attached to it. The target attribute simply refers to the GameObject that the laser was aimed at (in the case of scene 2, it was the Borg Cube). The toTarget attribute is the displacement between the shooter (the LaserSpawnPos that represents the Starfleet ships) and what the shooter was aiming at (the Borg Cube). The desired attribute is the toTarget vector normalised by the maxSpeed float attribute. The explosion GameObject is a prefab/GameObject that gets instantiated when the projectile collides with a target. The method DestroySelf() is called to destroy the projectile when either it collides with a target or when 3 seconds passes without touching anything.
+#### ProjectileBehaviour.cs
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ProjectileBehaviour : MonoBehaviour
+{
+	public GameObject target;
+
+	private Vector3 toTarget, desired;
+	private float maxSpeed = 75f;
+	private GameObject explosion;
+
+	void Start()
+	{
+		explosion = Resources.Load("Prefabs/Explosion") as GameObject;
+		toTarget = target.transform.position - transform.position;
+		desired = toTarget.normalized * maxSpeed;
+		transform.LookAt(target.transform.position);
+		Invoke("DestroySelf", 3f);
+	}
+
+	void Update()
+	{
+		transform.position += desired * Time.deltaTime;
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if(collision.gameObject == target)
+		{
+			Instantiate(explosion, transform.position, transform.rotation);
+			DestroySelf();	
+		}
+	}
+
+	void DestroySelf()
+	{
+		Destroy(gameObject);
+	}
+}
+```
+
 # List of classes/assets in this project
 | Class/asset | Source |
 |-----------|-----------|
