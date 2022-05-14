@@ -9,6 +9,8 @@ public class Scene2Director : MonoBehaviour
 	private Camera camera;
 	private ShipBehaviour borgCubeBehaviour;
 	private float borgSpeed = 7.5f;
+	private GameObject laserSpawnPos;
+	private GameObject laser;
 	private float[] laserTimeStamps;
 
 	void Awake()
@@ -20,9 +22,20 @@ public class Scene2Director : MonoBehaviour
 		borgCubeBehaviour.target = earth.transform;
 		borgCubeBehaviour.maxSpeed = borgSpeed;
 		borgCubeBehaviour.seeking = true;
+		laserSpawnPos = GameObject.FindWithTag("LaserSpawnPos");
+		laser = Resources.Load("Prefabs/RedLaser") as GameObject;
 	}
 
 	void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Space))
+		{
+			var l = Instantiate(laser, laserSpawnPos.transform.position, laserSpawnPos.transform.rotation);
+			l.GetComponent<ProjectileBehaviour>().target = borgCube;
+		}
+	}
+
+	void FixedUpdate()
 	{
 		camera.transform.LookAt(borgCube.transform);
 	}

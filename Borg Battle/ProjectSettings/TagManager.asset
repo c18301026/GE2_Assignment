@@ -11,6 +11,7 @@ TagManager:
   - PortraitBox
   - BorgCube
   - Earth
+  - LaserSpawnPos
   layers:
   - Default
   - TransparentFX
