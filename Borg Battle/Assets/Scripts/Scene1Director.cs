@@ -129,6 +129,12 @@ public class Scene1Director : MonoBehaviour
 		{
 			SceneManager.LoadScene("Scene2");
 		}
+
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			Application.Quit();
+			Debug.Log("I want out!");
+		}
 	}
 
 	void FixedUpdate()

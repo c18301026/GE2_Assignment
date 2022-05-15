@@ -156,6 +156,12 @@ public class Scene4Director : MonoBehaviour
 			//SceneManager.LoadScene("Scene4");
 			Debug.Log("Test");
 		}
+
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			Application.Quit();
+			Debug.Log("I want out!");
+		}
 	}
 
 	void FixedUpdate()

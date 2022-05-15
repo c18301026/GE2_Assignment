@@ -7,7 +7,7 @@ Student Number: C18301026
 Class Group: TU856 (DT228)
 
 # Description
-This is a low-poly recreation of the Borg battle from Star Trek: First Contact in Unity. All models were created using Blender.
+This is a low-poly recreation of the Borg battle from Star Trek: First Contact in Unity (2021.3.2f1). All models were created using Blender.
 
 The story will mimic the following video:
 
@@ -17,6 +17,7 @@ The story will mimic the following video:
 
 # Instructions for use
 ## Controls
+- Escape key: quit
 - Space key: move to the next scene
 
 # Event Summary
@@ -41,9 +42,11 @@ The story will mimic the following video:
 3. The battle rages on.
 
 ## Scene 5
-8. Picard takes command of the fleet and orders the ships to target their weapons to a specific part of the Borg cube.
-9. Before the Borg cube blows up, a Borg sphere is released.
-10. The Borg sphere heads for Earth.
+1. Picard takes command of the fleet and orders the ships to target their weapons to a specific part of the Borg cube.
+
+## Scene 6
+1. Before the Borg cube blows up, a Borg sphere is released.
+2. The Borg sphere heads for Earth.
 11. The Enterprise pursues the Borg sphere.
 12. Worf boards the Enterprise.
 13. Temporal vortex is created by the Borg sphere to travel back in time.
@@ -446,6 +449,12 @@ void Update()
 	{
 		SceneManager.LoadScene("Scene2");
 	}
+
+	if(Input.GetKeyDown(KeyCode.Escape))
+	{
+		Application.Quit();
+		Debug.Log("I want out!");
+	}
 }
 ```
 
@@ -680,6 +689,9 @@ void setOnFire()
 }
 ```
 
+## Scene 4
+### The scenes beyond scene 3 are simply variations on the code snippets already seen (especially in terms of the scene director script).
+
 # List of classes/assets in this project
 | Class/asset | Source |
 |-----------|-----------|
@@ -688,11 +700,13 @@ void setOnFire()
 | Scene1Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
 | Scene2Director.cs | Created by me |
 | Scene3Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
+| Scene4Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
 | Path.cs | Based on [this](https://github.com/skooter500/GE2-2021-2022/blob/master/GE2%202022/Assets/Path.cs) |
 | ShipBehaviour.cs | Based on [this](https://github.com/skooter500/GE2-2021-2022/blob/master/GE2%202022/Assets/BigBoid.cs) |
 | Scene1.unity | Created by me |
 | Scene2.unity | Created by me |
 | Scene3.unity | Created by me |
+| Scene4.unity | Created by me |
 | Borg_Cube.fbx | Created by me using Blender |
 | Borg_Earth.fbx | Created by me using Blender |
 | Borg_Sphere.fbx | Created by me using Blender |
@@ -714,10 +728,12 @@ void setOnFire()
 | USS_Defiant_Conn_Officer.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | Worf.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | Background.mat | Created by me |
+| BarrierMaterial.mat | Created by me; help from [this video](https://youtu.be/_KBaT6gRgRs) |
 | BorgLaserMaterial.mat | Created by me; help from [this video](https://youtu.be/_KBaT6gRgRs) |
 | ExplosionMaterial.mat | Created by me; help from [this video](https://youtu.be/_KBaT6gRgRs) |
 | RedLaserMaterial.mat | Created by me; help from [this video](https://youtu.be/_KBaT6gRgRs) |
 | SmokeMaterial.mat | Created by me |
+| Barrier.prefab | Created by me |
 | BorgLaser.prefab | Created by me |
 | Explosion.prefab | Created by me; help from [this video](https://youtu.be/dOnQY0t3TBM) |
 | Fire.prefab | Created by me; help from [this video](https://youtu.be/hCn0ZZbQAUs) |
@@ -725,6 +741,7 @@ void setOnFire()
 | Scene1.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity |
 | Scene2.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity |
 | Scene3.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity |
+| Scene4.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity |
 
 # What I am most proud of in the assignment
 - Writing the Dialogue.cs script that displays/hides the dialogue boxes using coroutines.

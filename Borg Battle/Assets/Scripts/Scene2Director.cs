@@ -43,6 +43,12 @@ public class Scene2Director : MonoBehaviour
 		{
 			SceneManager.LoadScene("Scene3");
 		}
+
+		if(Input.GetKeyDown(KeyCode.Escape))
+		{
+			Application.Quit();
+			Debug.Log("I want out!");
+		}
 	}
 
 	void FixedUpdate()
