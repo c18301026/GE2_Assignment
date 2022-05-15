@@ -23,6 +23,8 @@ TagManager:
   - Ship3Path
   - Ship4
   - Ship4Path
+  - Barrier
+  - EnterprisePath
   layers:
   - Default
   - TransparentFX
