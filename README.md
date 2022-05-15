@@ -490,9 +490,9 @@ using UnityEngine;
 public class ProjectileBehaviour : MonoBehaviour
 {
 	public GameObject target;
+	public float maxSpeed = 75f;
 
 	private Vector3 toTarget, desired;
-	private float maxSpeed = 75f;
 	private GameObject explosion;
 
 	void Start()

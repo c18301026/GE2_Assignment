@@ -13,8 +13,16 @@ TagManager:
   - Earth
   - LaserSpawnPos
   - USSDefiant
-  - OtherShip
   - USSDefiantPath
+  - Undefined
+  - Ship1
+  - Ship1Path
+  - Ship2
+  - Ship2Path
+  - Ship3
+  - Ship3Path
+  - Ship4
+  - Ship4Path
   layers:
   - Default
   - TransparentFX

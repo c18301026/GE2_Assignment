@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class Scene3Director : MonoBehaviour
 {
-	private GameObject ussDefiant;
-	private GameObject ussDefiantPath;
-	private float[] ussDefiantLaserTimeStamps = new float[] {0.1f, 0.3f, 0.5f, 3.0f, 3.2f, 3.4f, 5.0f, 5.2f, 5.4f};
+	private GameObject ussDefiant, ussDefiantPath;
+	private float[] ussDefiantLaserTimeStamps = new float[] {0.1f, 0.3f, 0.5f, 3.0f, 3.2f, 3.4f, 5.2f, 5.4f, 5.6f};
+	private GameObject fire;
+	private bool onFire;
 	private GameObject starfleetLaser;
-	private GameObject borgCube;
-	private Camera camera;
 
+	private GameObject borgCube;
+	private GameObject borgLaser;
+
+	private GameObject ship1, ship2, ship3, ship4;
+	private GameObject ship1Path, ship2Path, ship3Path, ship4Path;
+
+	private Camera camera;
 	private AudioSource audioSource;
 
 	void Awake()
@@ -20,40 +26,108 @@ public class Scene3Director : MonoBehaviour
 		ussDefiant.GetComponent<ShipBehaviour>().path = ussDefiantPath.GetComponent<Path>();
 		ussDefiant.GetComponent<ShipBehaviour>().followingPath = true;
 		ussDefiant.GetComponent<ShipBehaviour>().maxSpeed = 10f;
-		borgCube = GameObject.FindWithTag("BorgCube");
-		camera = Camera.main;
+		fire = Resources.Load("Prefabs/Fire") as GameObject;
 		starfleetLaser = Resources.Load("Prefabs/RedLaser") as GameObject;
 
+		borgCube = GameObject.FindWithTag("BorgCube");
+		borgLaser = Resources.Load("Prefabs/BorgLaser") as GameObject;
+
+		ship1 = GameObject.FindWithTag("Ship1");
+		ship1Path = GameObject.FindWithTag("Ship1Path");
+		ship1.GetComponent<ShipBehaviour>().path = ship1Path.GetComponent<Path>();
+		ship1.GetComponent<ShipBehaviour>().followingPath = true;
+		ship1.GetComponent<ShipBehaviour>().maxSpeed = 13f;
+
+		ship2 = GameObject.FindWithTag("Ship2");
+		ship2Path = GameObject.FindWithTag("Ship2Path");
+		ship2.GetComponent<ShipBehaviour>().path = ship2Path.GetComponent<Path>();
+		ship2.GetComponent<ShipBehaviour>().followingPath = true;
+		ship2.GetComponent<ShipBehaviour>().maxSpeed = 13f;
+
+		ship3 = GameObject.FindWithTag("Ship3");
+		ship3Path = GameObject.FindWithTag("Ship3Path");
+		ship3.GetComponent<ShipBehaviour>().path = ship3Path.GetComponent<Path>();
+		ship3.GetComponent<ShipBehaviour>().followingPath = true;
+		ship3.GetComponent<ShipBehaviour>().maxSpeed = 13f;
+
+		ship4 = GameObject.FindWithTag("Ship4");
+		ship4Path = GameObject.FindWithTag("Ship4Path");
+		ship4.GetComponent<ShipBehaviour>().path = ship4Path.GetComponent<Path>();
+		ship4.GetComponent<ShipBehaviour>().followingPath = true;
+		ship4.GetComponent<ShipBehaviour>().maxSpeed = 13f;
+
+		camera = Camera.main;
 		audioSource = GetComponent<AudioSource>();
 	}
 
 	void Start()
 	{
-		/*
-		StartCoroutine(StarfleetShootLaser(ussDefiant, 0.1f));
-		StartCoroutine(StarfleetShootLaser(ussDefiant, 0.3f));
-		StartCoroutine(StarfleetShootLaser(ussDefiant, 0.5f));
-		StartCoroutine(StarfleetShootLaser(ussDefiant, 3.1f));
-		StartCoroutine(StarfleetShootLaser(ussDefiant, 3.3f));
-		StartCoroutine(StarfleetShootLaser(ussDefiant, 3.5f));
-		StartCoroutine(StarfleetShootLaser(ussDefiant, 5.0f));
-		StartCoroutine(StarfleetShootLaser(ussDefiant, 5.2f));
-		StartCoroutine(StarfleetShootLaser(ussDefiant, 5.4f));*/
+		StartCoroutine(ChangeCameraAngle(72, 18, 50, 7.5f));
+		StartCoroutine(ChangeCameraAngle(0, 50, -50, 28.5f));
+		//StartCoroutine(ChangeCameraAngle(0, 50, -25, 15f));
+		//StartCoroutine(ChangeCameraAngle(-70, -1, 10, 28.5f));
+
 		for(int i = 0; i < ussDefiantLaserTimeStamps.Length; i++)
 		{
-			StartCoroutine(StarfleetShootLaser(ussDefiant, ussDefiantLaserTimeStamps[i]));
+			StartCoroutine(ShootLaser(ussDefiant, borgCube, ussDefiantLaserTimeStamps[i]));
 		}
+
+		for(int i = 0; i < 36; i += 4)
+		{
+			StartCoroutine(ShootLaser(ship1, borgCube, (float)i));
+			StartCoroutine(ShootLaser(ship2, borgCube, (float)(i + 2)));
+			StartCoroutine(ShootLaser(ship3, borgCube, (float)(i + 1)));
+			StartCoroutine(ShootLaser(ship4, borgCube, (float)(i + 3)));
+
+			StartCoroutine(ShootLaser(borgCube, ship1, (float)(i + 2)));
+			StartCoroutine(ShootLaser(borgCube, ship2, (float)(i + 1)));
+			StartCoroutine(ShootLaser(borgCube, ship3, (float)(i + 3)));
+			StartCoroutine(ShootLaser(borgCube, ship4, (float)i));
+		}
+
+		StartCoroutine(ShootLaser(borgCube, ussDefiant, 7.5f));
+		Invoke("setOnFire", 8f);
 	}
 
 	void FixedUpdate()
 	{
 		camera.transform.LookAt(ussDefiant.transform);
+		borgCube.transform.position = new Vector3(0, 0, 60);
+		borgCube.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+		if(onFire)
+		{
+			fire.transform.position = ussDefiant.transform.position;
+		}
 	}
 
-	IEnumerator StarfleetShootLaser(GameObject ship, float timeStamp)
+	IEnumerator ShootLaser(GameObject shooter, GameObject target, float timeStamp)
 	{
 		yield return new WaitForSeconds(timeStamp);
-		var l = Instantiate(starfleetLaser, ship.transform.position, ship.transform.rotation);
-		l.GetComponent<ProjectileBehaviour>().target = borgCube;
+
+		if(shooter.gameObject.tag == "BorgCube")
+		{
+			var l = Instantiate(borgLaser, shooter.transform.position, shooter.transform.rotation);
+			l.GetComponent<ProjectileBehaviour>().target = target;
+			l.GetComponent<ProjectileBehaviour>().maxSpeed = 150f;
+		}
+		else
+		{
+			var l = Instantiate(starfleetLaser, shooter.transform.position, shooter.transform.rotation);
+			l.GetComponent<ProjectileBehaviour>().target = target;
+		}
+	}
+
+	IEnumerator ChangeCameraAngle(float x, float y, float z, float timeStamp)
+	{
+		yield return new WaitForSeconds(timeStamp);
+		camera.transform.position = new Vector3(x, y, z);
+	}
+
+	void setOnFire()
+	{
+		fire = Instantiate(fire, ussDefiant.transform.position, Quaternion.Euler(-90, 0, 0));
+		onFire = true;
+		ussDefiant.GetComponent<ShipBehaviour>().maxSpeed = 5f;
 	}
 }
