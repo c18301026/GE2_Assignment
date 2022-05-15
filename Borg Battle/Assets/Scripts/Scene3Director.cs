@@ -128,8 +128,7 @@ public class Scene3Director : MonoBehaviour
 	{
 		if(Input.GetKeyDown(KeyCode.Space) || !audioSource.isPlaying)
 		{
-			//SceneManager.LoadScene("Scene4");
-			Debug.Log("Test");
+			SceneManager.LoadScene("Scene4");
 		}
 	}
 
