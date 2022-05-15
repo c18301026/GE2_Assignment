@@ -12,6 +12,9 @@ TagManager:
   - BorgCube
   - Earth
   - LaserSpawnPos
+  - USSDefiant
+  - OtherShip
+  - USSDefiantPath
   layers:
   - Default
   - TransparentFX
