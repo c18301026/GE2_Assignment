@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Scene3Director : MonoBehaviour
 {
@@ -15,6 +16,17 @@ public class Scene3Director : MonoBehaviour
 
 	private GameObject ship1, ship2, ship3, ship4;
 	private GameObject ship1Path, ship2Path, ship3Path, ship4Path;
+
+	private string[] lines = new string[] {	"WORF:\nReport!",
+						"CONN OFFICER:\nMain power is off-line. We've lost shields and our weapons have gone.",
+						"WORF:\nPerhaps today is a good day to die. Prepare for ramming speed!",
+						"CONN OFFICER:\nSir, there's another starship coming in. ...It's the Enterprise!"};
+	private float[] displayTimeStamps = new float[] {15f, 16f, 23f, 28f};
+	private float[] hideTimeStamps = new float[] {0f, 21f, 35f};
+	private GameObject canvas, dialogueBox, portraitBox;
+	private Dialogue dialogueScript;
+	private Texture2D borg, crusher, data, hawk, picard, riker, starfleet, troi, connOfficer, worf;
+	private Texture2D[] portraits;
 
 	private Camera camera;
 	private AudioSource audioSource;
@@ -56,6 +68,31 @@ public class Scene3Director : MonoBehaviour
 		ship4.GetComponent<ShipBehaviour>().followingPath = true;
 		ship4.GetComponent<ShipBehaviour>().maxSpeed = 13f;
 
+		canvas = GameObject.FindWithTag("Canvas");
+		dialogueBox = GameObject.FindWithTag("DialogueBox");
+		portraitBox = GameObject.FindWithTag("PortraitBox");
+
+		borg = Resources.Load("Portraits/Borg") as Texture2D;
+		crusher = Resources.Load("Portraits/Crusher") as Texture2D;
+		data = Resources.Load("Portraits/Data") as Texture2D;
+		hawk = Resources.Load("Portraits/Hawk") as Texture2D;
+		picard = Resources.Load("Portraits/Picard") as Texture2D;
+		riker = Resources.Load("Portraits/Riker") as Texture2D;
+		starfleet = Resources.Load("Portraits/Starfleet") as Texture2D;
+		troi = Resources.Load("Portraits/Troi") as Texture2D;
+		connOfficer = Resources.Load("Portraits/USS_Defiant_Conn_Officer") as Texture2D;
+		worf = Resources.Load("Portraits/Worf") as Texture2D;
+
+		portraits = new Texture2D[] {worf, connOfficer, worf, connOfficer};
+
+		dialogueScript = dialogueBox.GetComponent<Dialogue>();
+		dialogueScript.canvas = canvas;
+		dialogueScript.portraitBox = portraitBox;
+		dialogueScript.lines = lines;
+		dialogueScript.displayTimeStamps = displayTimeStamps;
+		dialogueScript.hideTimeStamps = hideTimeStamps;
+		dialogueScript.portraits = portraits;
+
 		camera = Camera.main;
 		audioSource = GetComponent<AudioSource>();
 	}
@@ -87,6 +124,15 @@ public class Scene3Director : MonoBehaviour
 
 		StartCoroutine(ShootLaser(borgCube, ussDefiant, 7.5f));
 		Invoke("setOnFire", 8f);
+	}
+
+	void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.Space) || !audioSource.isPlaying)
+		{
+			//SceneManager.LoadScene("Scene4");
+			Debug.Log("Test");
+		}
 	}
 
 	void FixedUpdate()
