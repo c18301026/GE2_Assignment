@@ -35,7 +35,12 @@ The story will mimic the following video:
 3. The USS Defiant is heavily damaged, on fire and slows down.
 4. The rest of the ships continue to struggle against the Borg cube.
 
-7. The Enterprise arrives to aid the other ships in their fight against the Borg cube.
+## Scene 4
+1. The Enterprise arrives to aid the other ships in their fight against the Borg cube.
+2. The Borg cube tries to attack the Enterprise, but fails.
+3. The battle rages on.
+
+## Scene 5
 8. Picard takes command of the fleet and orders the ships to target their weapons to a specific part of the Borg cube.
 9. Before the Borg cube blows up, a Borg sphere is released.
 10. The Borg sphere heads for Earth.
@@ -525,6 +530,156 @@ public class ProjectileBehaviour : MonoBehaviour
 }
 ```
 
+## Scene 3
+### Movement of the Ships
+There are 5 ships that are fighting the Borg cube and they are all moving through path following. Each path that the ships take are implemented as empty GameObjects with children waypoints (which are also empty). The following is the script used to implement the paths.
+
+#### Path.cs
+```C#
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Path : MonoBehaviour
+{
+	public bool looped;
+
+	private List<Vector3> waypoints = new List<Vector3>();
+	private int current = 0;
+
+	private void PopulatePath()
+	{
+		waypoints.Clear();
+		foreach(Transform child in transform.GetComponentsInChildren<Transform>())
+		{
+			if(child != transform)
+			{
+				waypoints.Add(child.position);
+			}
+		}
+	}
+
+	public void Awake()
+	{
+		PopulatePath();
+	}
+
+	public void OnDrawGizmos()
+	{
+		PopulatePath();
+		Gizmos.color = Color.blue;
+
+		for(int i = 1; i < waypoints.Count; i++)
+		{
+			Gizmos.DrawLine(waypoints[i - 1], waypoints[i]);
+			Gizmos.DrawSphere(waypoints[i - 1], 1);
+			Gizmos.DrawSphere(waypoints[i], 1);
+		}
+
+		if(looped)
+		{
+			Gizmos.DrawLine(waypoints[waypoints.Count - 1], waypoints[0]);
+		}
+	}
+
+	public Vector3 Next()
+	{
+		return waypoints[current];
+	}
+
+	public bool IsLast()
+	{
+		return (current == waypoints.Count - 1);
+	}
+
+	public void ToNext()
+	{
+		if(!looped)
+		{
+			if(!IsLast())
+			{
+				current++;
+			}
+		}
+		else
+		{
+			current = (current + 1) % waypoints.Count;
+		}
+	}
+}
+```
+
+### Lasers
+As with the previous scenes, all the events are controlled by the [scene director](https://github.com/c18301026/GE2_Assignment/blob/main/Borg%20Battle/Assets/Scripts/Scene3Director.cs). There are 2 types of lasers in this scene:
+1. red lasers shot by the Starfleet
+2. green lasers shot by the Borg cube
+The USS Defiant shoots lasers based on a float array that contains the time stamps for when to shoot (in seconds).
+
+#### USS Defiant float array attribute found at the top of the Scene3Director.cs script
+```C#
+private float[] ussDefiantLaserTimeStamps = new float[] {0.1f, 0.3f, 0.5f, 3.0f, 3.2f, 3.4f, 5.2f, 5.4f, 5.6f};
+```
+
+The Start() method has coroutines for when the Starfleet or the Borg cube fires their lasers. The other 4 Starfleet ships will fire in intervals of 4 seconds, but they do so one-by-one and not at the same time. The Borg cube will target the 4 Starfleet ships in a similar manner. The USS Defiant gets treatment by the Borg cube: it gets shot only once and gets set on fire (done through invoking the setOnFire() method).
+#### Start() method showing the coroutines for shooting lasers
+```C#
+void Start()
+{
+	// ...at the top are coroutines related to changing the camera angles
+
+	for(int i = 0; i < ussDefiantLaserTimeStamps.Length; i++)
+	{
+		StartCoroutine(ShootLaser(ussDefiant, borgCube, ussDefiantLaserTimeStamps[i]));
+	}
+
+	for(int i = 0; i < 36; i += 4)
+	{
+		StartCoroutine(ShootLaser(ship1, borgCube, (float)i));
+		StartCoroutine(ShootLaser(ship2, borgCube, (float)(i + 2)));
+		StartCoroutine(ShootLaser(ship3, borgCube, (float)(i + 1)));
+		StartCoroutine(ShootLaser(ship4, borgCube, (float)(i + 3)));
+
+		StartCoroutine(ShootLaser(borgCube, ship1, (float)(i + 2)));
+		StartCoroutine(ShootLaser(borgCube, ship2, (float)(i + 1)));
+		StartCoroutine(ShootLaser(borgCube, ship3, (float)(i + 3)));
+		StartCoroutine(ShootLaser(borgCube, ship4, (float)i));
+	}
+
+	StartCoroutine(ShootLaser(borgCube, ussDefiant, 7.5f));
+	Invoke("setOnFire", 8f);
+}
+```
+
+#### ShootLaser() coroutine takes in: 1. the GameObject that shot the laser, 2. the target GameObject, 3. when to shoot the laser (in seconds)
+```C#
+IEnumerator ShootLaser(GameObject shooter, GameObject target, float timeStamp)
+{
+	yield return new WaitForSeconds(timeStamp);
+
+	if(shooter.gameObject.tag == "BorgCube")
+	{
+		var l = Instantiate(borgLaser, shooter.transform.position, shooter.transform.rotation);
+		l.GetComponent<ProjectileBehaviour>().target = target;
+		l.GetComponent<ProjectileBehaviour>().maxSpeed = 150f;
+	}
+	else
+	{
+		var l = Instantiate(starfleetLaser, shooter.transform.position, shooter.transform.rotation);
+		l.GetComponent<ProjectileBehaviour>().target = target;
+	}
+}
+```
+
+#### The setOnFire() method instantiates a fire prefab which sticks to the USS Defiant after it gets shot by the Borg cube. It also slows down the USS Defiant.
+```C#
+void setOnFire()
+{
+	fire = Instantiate(fire, ussDefiant.transform.position, Quaternion.Euler(-90, 0, 0));
+	onFire = true;
+	ussDefiant.GetComponent<ShipBehaviour>().maxSpeed = 5f;
+}
+```
+
 # List of classes/assets in this project
 | Class/asset | Source |
 |-----------|-----------|
@@ -532,10 +687,12 @@ public class ProjectileBehaviour : MonoBehaviour
 | ProjectileBehaviour.cs | Created by me |
 | Scene1Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
 | Scene2Director.cs | Created by me |
+| Scene3Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
 | Path.cs | Based on [this](https://github.com/skooter500/GE2-2021-2022/blob/master/GE2%202022/Assets/Path.cs) |
 | ShipBehaviour.cs | Based on [this](https://github.com/skooter500/GE2-2021-2022/blob/master/GE2%202022/Assets/BigBoid.cs) |
 | Scene1.unity | Created by me |
 | Scene2.unity | Created by me |
+| Scene3.unity | Created by me |
 | Borg_Cube.fbx | Created by me using Blender |
 | Borg_Earth.fbx | Created by me using Blender |
 | Borg_Sphere.fbx | Created by me using Blender |
@@ -557,13 +714,17 @@ public class ProjectileBehaviour : MonoBehaviour
 | USS_Defiant_Conn_Officer.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | Worf.png | Screenshot from [source video](https://youtu.be/D7KCb-O20Fg)|
 | Background.mat | Created by me |
+| BorgLaserMaterial.mat | Created by me; help from [this video](https://youtu.be/_KBaT6gRgRs) |
 | ExplosionMaterial.mat | Created by me; help from [this video](https://youtu.be/_KBaT6gRgRs) |
 | RedLaserMaterial.mat | Created by me; help from [this video](https://youtu.be/_KBaT6gRgRs) |
 | SmokeMaterial.mat | Created by me |
+| BorgLaser.prefab | Created by me |
 | Explosion.prefab | Created by me; help from [this video](https://youtu.be/dOnQY0t3TBM) |
+| Fire.prefab | Created by me; help from [this video](https://youtu.be/hCn0ZZbQAUs) |
 | RedLaser.prefab | Created by me |
-| Scene1.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity|
-| Scene2.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity|
+| Scene1.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity |
+| Scene2.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity |
+| Scene3.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity |
 
 # What I am most proud of in the assignment
 - Writing the Dialogue.cs script that displays/hides the dialogue boxes using coroutines.

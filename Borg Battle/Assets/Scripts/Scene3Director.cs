@@ -101,8 +101,6 @@ public class Scene3Director : MonoBehaviour
 	{
 		StartCoroutine(ChangeCameraAngle(72, 18, 50, 7.5f));
 		StartCoroutine(ChangeCameraAngle(0, 50, -50, 28.5f));
-		//StartCoroutine(ChangeCameraAngle(0, 50, -25, 15f));
-		//StartCoroutine(ChangeCameraAngle(-70, -1, 10, 28.5f));
 
 		for(int i = 0; i < ussDefiantLaserTimeStamps.Length; i++)
 		{
