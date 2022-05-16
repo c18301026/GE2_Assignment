@@ -14,6 +14,15 @@ public class Scene5Director : MonoBehaviour
 	private Camera camera;
 	private AudioSource audioSource;
 
+	private string[] lines = new string[] {	"RIKER:\nThe fleet's responded, sir. They're standing by.",
+						"PICARD:\nFire."};
+	private float[] displayTimeStamps = new float[] {0f, 8.5f};
+	private float[] hideTimeStamps = new float[] {3f, 11.5f};
+	private GameObject canvas, dialogueBox, portraitBox;
+	private Dialogue dialogueScript;
+	private Texture2D borg, crusher, data, hawk, picard, riker, starfleet, troi, connOfficer, worf;
+	private Texture2D[] portraits;
+
 	void Awake()
 	{
 		ussDefiant = GameObject.FindWithTag("USSDefiant");
@@ -47,6 +56,31 @@ public class Scene5Director : MonoBehaviour
 		ship4.GetComponent<ShipBehaviour>().path = ship4Path.GetComponent<Path>();
 		ship4.GetComponent<ShipBehaviour>().followingPath = true;
 		ship4.GetComponent<ShipBehaviour>().maxSpeed = 13f;
+
+		canvas = GameObject.FindWithTag("Canvas");
+		dialogueBox = GameObject.FindWithTag("DialogueBox");
+		portraitBox = GameObject.FindWithTag("PortraitBox");
+
+		borg = Resources.Load("Portraits/Borg") as Texture2D;
+		crusher = Resources.Load("Portraits/Crusher") as Texture2D;
+		data = Resources.Load("Portraits/Data") as Texture2D;
+		hawk = Resources.Load("Portraits/Hawk") as Texture2D;
+		picard = Resources.Load("Portraits/Picard") as Texture2D;
+		riker = Resources.Load("Portraits/Riker") as Texture2D;
+		starfleet = Resources.Load("Portraits/Starfleet") as Texture2D;
+		troi = Resources.Load("Portraits/Troi") as Texture2D;
+		connOfficer = Resources.Load("Portraits/USS_Defiant_Conn_Officer") as Texture2D;
+		worf = Resources.Load("Portraits/Worf") as Texture2D;
+
+		portraits = new Texture2D[] {riker, picard};
+
+		dialogueScript = dialogueBox.GetComponent<Dialogue>();
+		dialogueScript.canvas = canvas;
+		dialogueScript.portraitBox = portraitBox;
+		dialogueScript.lines = lines;
+		dialogueScript.displayTimeStamps = displayTimeStamps;
+		dialogueScript.hideTimeStamps = hideTimeStamps;
+		dialogueScript.portraits = portraits;
 
 		camera = Camera.main;
 		audioSource = GetComponent<AudioSource>();
