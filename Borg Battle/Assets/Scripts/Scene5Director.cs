@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Scene5Director : MonoBehaviour
 {
@@ -109,6 +110,11 @@ public class Scene5Director : MonoBehaviour
 
 	void Update()
 	{
+		if(!audioSource.isPlaying)
+		{
+			SceneManager.LoadScene("Menu");
+		}
+
 		if(Input.GetKeyDown(KeyCode.Escape))
 		{
 			Application.Quit();

@@ -17,8 +17,8 @@ The story will mimic the first half of the following video:
 
 # Instructions for use
 ## Controls
+- Space key: start/move to the next scene
 - Escape key: quit
-- Space key: move to the next scene
 
 # Event Summary
 ## Scene 1
@@ -43,19 +43,7 @@ The story will mimic the first half of the following video:
 
 ## Scene 5
 1. Picard takes command of the fleet and orders the ships to target their weapons to a specific part of the Borg cube.
-
-## Scene 6
-1. Before the Borg cube blows up, a Borg sphere is released.
-2. The Borg sphere heads for Earth.
-11. The Enterprise pursues the Borg sphere.
-12. Worf boards the Enterprise.
-13. Temporal vortex is created by the Borg sphere to travel back in time.
-14. The Enterprise gets caught in the temporal vortex.
-15. The Borg assimilates Earth from the past and changes history.
-16. To reverse the damage caused by the Borg, the Enterprise follows the Borg sphere through the vortex.
-17. The Borg sphere starts attacking Earth.
-18. In response, the Enterprise fires quantum torpedoes at the sphere.
-19. The Borg sphere blows up.
+2. The Borg cube blows up.
 
 # How it works
 ## Scene 1
@@ -696,17 +684,21 @@ void setOnFire()
 | Class/asset | Source |
 |-----------|-----------|
 | Dialogue.cs | Created by me |
+| MenuController.cs | Created by me |
 | ProjectileBehaviour.cs | Created by me |
 | Scene1Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
 | Scene2Director.cs | Created by me |
 | Scene3Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
 | Scene4Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
+| Scene5Director.cs | Created by me; dialogue from [here](https://www.chakoteya.net/movies/movie8.html) |
 | Path.cs | Based on [this](https://github.com/skooter500/GE2-2021-2022/blob/master/GE2%202022/Assets/Path.cs) |
 | ShipBehaviour.cs | Based on [this](https://github.com/skooter500/GE2-2021-2022/blob/master/GE2%202022/Assets/BigBoid.cs) |
+| Menu.unity | Created by me |
 | Scene1.unity | Created by me |
 | Scene2.unity | Created by me |
 | Scene3.unity | Created by me |
 | Scene4.unity | Created by me |
+| Scene5.unity | Created by me |
 | Borg_Cube.fbx | Created by me using Blender |
 | Borg_Earth.fbx | Created by me using Blender |
 | Borg_Sphere.fbx | Created by me using Blender |
@@ -734,6 +726,7 @@ void setOnFire()
 | RedLaserMaterial.mat | Created by me; help from [this video](https://youtu.be/_KBaT6gRgRs) |
 | SmokeMaterial.mat | Created by me |
 | Barrier.prefab | Created by me |
+| BorgExplosion.prefab | Created by me; help from [this video](https://youtu.be/dOnQY0t3TBM) |
 | BorgLaser.prefab | Created by me |
 | Explosion.prefab | Created by me; help from [this video](https://youtu.be/dOnQY0t3TBM) |
 | Fire.prefab | Created by me; help from [this video](https://youtu.be/hCn0ZZbQAUs) |
@@ -742,6 +735,7 @@ void setOnFire()
 | Scene2.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity |
 | Scene3.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity |
 | Scene4.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split by me using Audacity |
+| Scene5.mp3 | Audio from [source video](https://youtu.be/D7KCb-O20Fg); split & edited by me using Audacity |
 
 # What I am most proud of in the assignment
 - Writing the Dialogue.cs script that displays/hides the dialogue boxes using coroutines.
@@ -750,6 +744,9 @@ void setOnFire()
 - Creating all the 3D low poly models using Blender.
 - Syncing up the scene audio with the time stamps.
 
+# If I had more time...
+I would have recreated the events that happened after the Borg sphere was released, i.e., the second half of the [source video]((https://www.youtube.com/watch?v=D7KCb-O20Fg)).
+
 # Models
 ## Enterprise
 ![enterprise model in blender](BlenderImages/Enterprise.png)
@@ -757,13 +754,13 @@ void setOnFire()
 ![borg cube model in blender](BlenderImages/BorgCube.png)
 ## Earth
 ![earth model in blender](BlenderImages/Earth.png)
-## Generic Ship No. 1
-![generic ship 1 model in blender](BlenderImages/Ship1.png)
-## Generic Ship No. 2
-![generic ship 2 model in blender](BlenderImages/Ship2.png)
+## Ship No. 1
+![ship 1 model in blender](BlenderImages/Ship1.png)
+## Ship No. 2
+![ship 2 model in blender](BlenderImages/Ship2.png)
 ## USS Defiant
 ![uss defiant model in blender](BlenderImages/USSDefiant.png)
-## Borg Sphere
+## Borg Sphere (Unused)
 ![borg sphere model in blender](BlenderImages/BorgSphere.png)
-## Borg Earth
+## Borg Earth (Unused)
 ![borg earth model in blender](BlenderImages/BorgEarth.png)
