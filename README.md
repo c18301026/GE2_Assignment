@@ -741,7 +741,7 @@ void setOnFire()
 # What I am most proud of in the assignment
 - Writing the Dialogue.cs script that displays/hides the dialogue boxes using coroutines.
 - Writing the scene director scripts to control how each scene plays out in terms of moving the ships, changing the camera angles and especially setting time stamps to play/hide the dialogue boxes.
-- Writing the Projectile.cs script to aim projectiles at a specific target's position.
+- Writing the ProjectileBehaviour.cs script to aim projectiles at a specific target's position.
 - Creating all the 3D low poly models using Blender.
 - Syncing up the scene audio with the time stamps.
 
