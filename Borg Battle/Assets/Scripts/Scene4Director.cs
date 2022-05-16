@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Scene4Director : MonoBehaviour
 {
@@ -153,8 +154,7 @@ public class Scene4Director : MonoBehaviour
 	{
 		if(Input.GetKeyDown(KeyCode.Space) || !audioSource.isPlaying)
 		{
-			//SceneManager.LoadScene("Scene4");
-			Debug.Log("Test");
+			SceneManager.LoadScene("Scene5");
 		}
 
 		if(Input.GetKeyDown(KeyCode.Escape))

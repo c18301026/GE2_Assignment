@@ -9,7 +9,7 @@ Class Group: TU856 (DT228)
 # Description
 This is a low-poly recreation of the Borg battle from Star Trek: First Contact in Unity (2021.3.2f1). All models were created using Blender.
 
-The story will mimic the following video:
+The story will mimic the first half of the following video:
 
 [![YouTube](http://img.youtube.com/vi/D7KCb-O20Fg/0.jpg)](https://www.youtube.com/watch?v=D7KCb-O20Fg)
 
