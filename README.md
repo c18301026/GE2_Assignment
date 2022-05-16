@@ -14,6 +14,7 @@ The story will mimic the first half of the following video:
 [![YouTube](http://img.youtube.com/vi/D7KCb-O20Fg/0.jpg)](https://www.youtube.com/watch?v=D7KCb-O20Fg)
 
 # Video Demonstration
+[![YouTube](http://img.youtube.com/vi/9dk4DvgMF6U/0.jpg)](https://www.youtube.com/watch?v=9dk4DvgMF6U)
 
 # Instructions for use
 ## Controls
