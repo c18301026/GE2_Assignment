@@ -6,6 +6,10 @@ public class Scene5Director : MonoBehaviour
 {
 	private GameObject ussDefiant, enterprise, starfleetLaser;
 	private GameObject borgCube, borgLaser;
+	private GameObject borgExplosion;
+
+	private GameObject ship1, ship2, ship3, ship4;
+	private GameObject ship1Path, ship2Path, ship3Path, ship4Path;
 
 	private Camera camera;
 	private AudioSource audioSource;
@@ -18,6 +22,31 @@ public class Scene5Director : MonoBehaviour
 
 		borgCube = GameObject.FindWithTag("BorgCube");
 		borgLaser = Resources.Load("Prefabs/BorgLaser") as GameObject;
+		borgExplosion = Resources.Load("Prefabs/BorgExplosion") as GameObject;
+
+		ship1 = GameObject.FindWithTag("Ship1");
+		ship1Path = GameObject.FindWithTag("Ship1Path");
+		ship1.GetComponent<ShipBehaviour>().path = ship1Path.GetComponent<Path>();
+		ship1.GetComponent<ShipBehaviour>().followingPath = true;
+		ship1.GetComponent<ShipBehaviour>().maxSpeed = 13f;
+
+		ship2 = GameObject.FindWithTag("Ship2");
+		ship2Path = GameObject.FindWithTag("Ship2Path");
+		ship2.GetComponent<ShipBehaviour>().path = ship2Path.GetComponent<Path>();
+		ship2.GetComponent<ShipBehaviour>().followingPath = true;
+		ship2.GetComponent<ShipBehaviour>().maxSpeed = 13f;
+
+		ship3 = GameObject.FindWithTag("Ship3");
+		ship3Path = GameObject.FindWithTag("Ship3Path");
+		ship3.GetComponent<ShipBehaviour>().path = ship3Path.GetComponent<Path>();
+		ship3.GetComponent<ShipBehaviour>().followingPath = true;
+		ship3.GetComponent<ShipBehaviour>().maxSpeed = 13f;
+
+		ship4 = GameObject.FindWithTag("Ship4");
+		ship4Path = GameObject.FindWithTag("Ship4Path");
+		ship4.GetComponent<ShipBehaviour>().path = ship4Path.GetComponent<Path>();
+		ship4.GetComponent<ShipBehaviour>().followingPath = true;
+		ship4.GetComponent<ShipBehaviour>().maxSpeed = 13f;
 
 		camera = Camera.main;
 		audioSource = GetComponent<AudioSource>();
@@ -25,7 +54,23 @@ public class Scene5Director : MonoBehaviour
 
 	void Start()
 	{
+		StartCoroutine(ChangeCameraAngle(75f, 20f, 70f, 30f, -90f, 0f, 0f));
+		StartCoroutine(ChangeCameraAngle(-40f, 10f, -20f, 30f, 60f, 0f, 4.75f));
+		StartCoroutine(ChangeCameraAngle(0f, 20f, -20f, 30f, 0f, 0f, 9.5f));
+		StartCoroutine(ChangeCameraAngle(50f, 5f, 18f, 0f, -90f, 0f, 18f));
+		StartCoroutine(ChangeCameraAngle(-30f, 3f, 14f, 0f, 45f, 0f, 24f));
 
+		for(float i = 10f; i < 28; i += 0.5f)
+		{
+			StartCoroutine(ShootLaser(ship1, borgCube, i));
+			StartCoroutine(ShootLaser(ship2, borgCube, i + 0.25f));
+			StartCoroutine(ShootLaser(ship3, borgCube, i + 0.5f));
+			StartCoroutine(ShootLaser(ship4, borgCube, i + 0.75f));
+			StartCoroutine(ShootLaser(enterprise, borgCube, i));
+		}
+
+		Invoke("StopFollowing", 12f);
+		Invoke("DestroyBorgCube", 28.5f);
 	}
 
 	void Update()
@@ -37,11 +82,12 @@ public class Scene5Director : MonoBehaviour
 		}
 	}
 
-	void FixedUpdate()
+	void StopFollowing()
 	{
-		//camera.transform.LookAt(enterprise.transform);
-		borgCube.transform.position = new Vector3(0, 0, 60);
-		borgCube.transform.rotation = Quaternion.Euler(0, 0, 0);
+		ship1.GetComponent<ShipBehaviour>().followingPath = false;
+		ship2.GetComponent<ShipBehaviour>().followingPath = false;
+		ship3.GetComponent<ShipBehaviour>().followingPath = false;
+		ship4.GetComponent<ShipBehaviour>().followingPath = false;
 	}
 
 	IEnumerator ShootLaser(GameObject shooter, GameObject target, float timeStamp)
@@ -61,9 +107,16 @@ public class Scene5Director : MonoBehaviour
 		}
 	}
 
-	IEnumerator ChangeCameraAngle(float x, float y, float z, float timeStamp)
+	IEnumerator ChangeCameraAngle(float xPos, float yPos, float zPos, float xRot, float yRot, float zRot, float timeStamp)
 	{
 		yield return new WaitForSeconds(timeStamp);
-		camera.transform.position = new Vector3(x, y, z);
+		camera.transform.position = new Vector3(xPos, yPos, zPos);
+		camera.transform.rotation = Quaternion.Euler(xRot, yRot, zRot);
+	}
+
+	void DestroyBorgCube()
+	{
+		Instantiate(borgExplosion, borgCube.transform.position, borgCube.transform.rotation);
+		Destroy(borgCube);
 	}
 }

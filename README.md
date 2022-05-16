@@ -689,7 +689,7 @@ void setOnFire()
 }
 ```
 
-## Scene 4
+## Scene 4 & 5
 ### The scenes beyond scene 3 are simply variations on the code snippets already seen (especially in terms of the scene director script).
 
 # List of classes/assets in this project
